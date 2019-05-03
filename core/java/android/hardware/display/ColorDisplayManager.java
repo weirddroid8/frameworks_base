@@ -463,7 +463,8 @@ public final class ColorDisplayManager {
      * @hide
      */
     public static boolean isNightDisplayAvailable(Context context) {
-        return context.getResources().getBoolean(R.bool.config_nightDisplayAvailable);
+        return context.getResources().getBoolean(R.bool.config_nightDisplayAvailable) &&
+            !context.getResources().getBoolean(R.bool.config_liveDisplayAvailable);
     }
 
     /**

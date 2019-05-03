@@ -171,6 +171,11 @@ import java.util.Timer;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 
+
+// LiveDisplay
+import com.android.server.custom.LineageHardwareService;
+import com.android.server.custom.display.LiveDisplayService;
+
 public final class SystemServer {
 
     private static final String TAG = "SystemServer";
@@ -1848,9 +1853,15 @@ public final class SystemServer {
             mSystemServiceManager.startService(CrossProfileAppsService.class);
             traceEnd();
 
-            traceBeginAndSlog("StartPocketService");
-            mSystemServiceManager.startService(PocketService.class);
-            traceEnd();
+            // LiveDisplay
+            if (!mOnlyCore){
+                traceBeginAndSlog("StartLineageHardwareService");
+                mSystemServiceManager.startService(LineageHardwareService.class);
+                traceEnd();
+                traceBeginAndSlog("StartLiveDisplayService");
+                mSystemServiceManager.startService(LiveDisplayService.class);
+                traceEnd();
+            }
 
             if (!context.getResources().getString(
                     com.android.internal.R.string.config_pocketBridgeSysfsInpocket).isEmpty()) {
